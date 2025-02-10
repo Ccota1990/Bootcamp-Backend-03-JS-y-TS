@@ -1,0 +1,14 @@
+{
+  "name": "ejerciciots",
+  "version": "1.0.0",
+  "main": "ejerciciosTs.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ejerciciosTs.ts",
+    "dev": "nodemon ejerciciosTs.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
