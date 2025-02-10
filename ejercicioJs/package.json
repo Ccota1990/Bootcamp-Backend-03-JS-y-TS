@@ -1,0 +1,13 @@
+{
+  "name": "bootcamp-backend-03-js-y-ts",
+  "version": "1.0.0",
+  "main": "ejerciciosJs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ejerciciosJs.js",
+    "dev": "nodemon ejerciciosJs.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
