@@ -2,23 +2,31 @@
 Dados el siguiente snippet de código, crea la interfaz Student y úsala para sustituir los unknown:
 */ 
 
-const students: unknown = [
-    {
-      name: "Patrick Berry",
-      age: 25,
-      occupation: "Medical scientist",
-    },
-    {
-      name: "Alice Garner",
-      age: 34,
-      occupation: "Media planner",
-    },
-  ];
+interface Student {
+  name : string;
+  age: number;
+  occupation: string;
+}
+
+// const students: Student[] = [
+//     {
+//       name: "Patrick Berry",
+//       age: 25,
+//       occupation: "Medical scientist",
+//     },
+//     {
+//       name: "Alice Garner",
+//       age: 34,
+//       occupation: "Media planner",
+//     },
+//   ];
 
 /* EJERCICIO 2
 Utilizando la interfaz Student del ejercicio anterior, crea la definición de User de tal manera que pueda ser o Student o Teacher. 
 Aplica la definición de User donde sea requerido solventar los errores de tipos.
 */ 
+
+type User = Student | Teacher;
 
 interface Teacher {
     name: string;
@@ -26,7 +34,7 @@ interface Teacher {
     subject: string;
   }
   
-  const users: Teacher[] = [
+  const users: User [] = [
     {
       name: "Luke Patterson",
       age: 32,
@@ -49,7 +57,7 @@ interface Teacher {
     },
   ];
   
-  const logUser = ({ name, age }: Teacher) => {
+  const logUser = ({ name, age }: User) => {
     console.log(`  - ${name}, ${age}`);
   };
   
@@ -60,12 +68,18 @@ Con el resultado del ejercicio 2,
 sustituye la función logUser por la siguiente y modifica el código aplicando las guardas que creas conveniente para corregir los errores de compilación:
 */ 
 
-const logUser = (user: User) => {
+const isStudent = (user: User): user is Student => (user as Student).occupation !== undefined;
+const isTeacher = (user: User): user is Teacher => (user as Teacher).subject !== undefined;
+
+
+const logUser1 = (user: User): void => {
     let extraInfo: string;
-    if (user.occupation) {
+    if (isStudent(user)) {
       extraInfo = user.occupation;
-    } else {
+    } else if (isTeacher(user)) {
       extraInfo = user.subject;
+    } else{
+      extraInfo ="No hay información"
     }
     console.log(`  - ${user.name}, ${user.age}, ${extraInfo}`);
   };
@@ -97,13 +111,29 @@ const students: Student[] = [
       occupation: "Placement officer",
     },
   ];
+  const filterStudentsBy = (students: Student[], criteria: string | any): Student[] => {
+    const criteriaForStudent = criteria as Student
+    return students.filter((student) => {
+      const criteriaKeys = Object.keys(criteriaForStudent);
+      return criteriaKeys.every((fieldName) => {
+        return criteriaForStudent[fieldName] === student[fieldName];
+      });
+    });
+  };
+  
+  const logStudent = ({ name, occupation }: Student) => {
+    console.log(`  - ${name}, ${occupation}`);
+  };
+  
+  console.log("Students of age 35:");
+  filterStudentsBy(students, { age: 35 }).forEach(logStudent);
 
 /* EJERCICIO 5
 Mediante genéricos y tuplas, tipa de forma completa la función para solventar los errores de compilación.
 */ 
-const swap = (arg1, arg2) => {
-    return [arg2, arg1];
-  };
+const swap = <T1, T2>(arg1: T1, arg2: T2): [T2, T1] => {
+  return [arg2, arg1];
+};
   
   let age: number, occupation: string;
   

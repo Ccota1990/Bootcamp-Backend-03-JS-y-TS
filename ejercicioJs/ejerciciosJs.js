@@ -73,9 +73,9 @@ const replaceAt = (arr, index, newElement) => {
     return [...arr.slice(0, index), newElement, ...arr.slice(index + 1)];
 };
 
-const result = replaceAt(elements, index, newValue);
-console.log(result === elements); // false
-console.log(result); // ['lorem', 'ipsum', 'furor', 'sit', 'amet'];
+// const result = replaceAt(elements, index, newValue);
+// console.log(result === elements); // false
+// console.log(result); // ['lorem', 'ipsum', 'furor', 'sit', 'amet'];
 
 /*
 EJERCICIO 3
@@ -220,12 +220,16 @@ const collection = [
       flag: "🇲🇴",
     },
   ];
+ 
   const normalize = (arr) => {
-
+    return arr.reduce((obj, { id, ...rest }) => {
+      obj[id] = rest;
+      return obj;
+    }, {});
   };
   
-  // const result = normalize(collection);
-  // console.log(result);
+  const result = normalize(collection);
+  console.log(result);
   /*
   Resultado:
   {
@@ -247,25 +251,38 @@ const collection = [
   }
   */
 
-    /*
-  EJERCICIO 5
-  Implementa una función para eliminar valores falsys de una estructura de datos. 
-  Si el argumento es un objeto, deberá eliminar sus propiedades falsys. 
-  Si el argumento es un array, deberá eliminar los elementos falsys. 
-  Si el argumento es un objeto o un array no deberán ser mutados. Siempre deberá de crear una estructura nueva. 
-  Si no es ni un objeto ni un array deberá de devolver dicho argumento.
-  */
+/*
+EJERCICIO 5
+Implementa una función para eliminar valores falsys de una estructura de datos. 
+Si el argumento es un objeto, deberá eliminar sus propiedades falsys. 
+Si el argumento es un array, deberá eliminar los elementos falsys. 
+Si el argumento es un objeto o un array no deberán ser mutados. Siempre deberá de crear una estructura nueva. 
+Si no es ni un objeto ni un array deberá de devolver dicho argumento.
+*/
 
-  const elementsEjercico5 = [0, 1, false, 2, "", 3];
+const elementsEjercico5 = [0, 1, false, 2, "", 3];
 
-  const compact = (arg) => {
-
-  };
+const compact = (arg) => {
+  // comprobar array
+  if (Array.isArray(arg)) {
+    return arg.filter(Boolean); // eliminar los valores  booleanos falsy
+  }
+  // comprobar objeto
+  if (typeof arg === 'object' && arg !== null) {
+    const newObj = {};
+    for (const key in arg) {
+      if (arg.hasOwnProperty(key) && Boolean(arg[key])) {
+        newObj[key] = arg[key];
+      }
+    }
+    return newObj;
+  }
+  // Si no es un array ni un objeto, devolvemos el valor tal cual
+  return arg;
+};
   
-  console.log(compact(123)); // 123
-  console.log(compact(null)); // null
-  console.log(compact([0, 1, false, 2, "", 3])); // [1, 2, 3]
-  console.log(compact({})); // {}
-  console.log(compact({ price: 0, name: "cloud", altitude: NaN, taste: undefined, isAlive: false })); // {name: "cloud"}
-
-            
+console.log(compact(123)); // 123
+console.log(compact(null)); // null
+console.log(compact([0, 1, false, 2, "", 3])); // [1, 2, 3]
+console.log(compact({})); // {}
+console.log(compact({ price: 0, name: "cloud", altitude: NaN, taste: undefined, isAlive: false })); // {name: "cloud"}
